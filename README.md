@@ -2,9 +2,9 @@
 A simple command line tool for encrypting/decrypting text using classical ciphers
 
 
-##Installation
+## Installation
 
-##Documentation
+## Documentation
 
-##Authors
+## Authors
 Jason Dale Turner
