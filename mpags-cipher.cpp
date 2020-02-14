@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
-int main()
-{
+int main() {
 	//This is a comment
 	/*This is a 
 	Multiline comment */
@@ -38,4 +37,35 @@ int main()
 	//Practice with string types//
 	std::string msg {"Hello"};
 	std::cout << msg << std::endl;
+
+	//Further practice with variables//
+	int i_a{5};
+	double dub_a{2.2};
+
+	std::cout << i_a*dub_a << std::endl;
+
+	//Divide double by int//
+	std::cout << "Divide double by int" << std::endl;
+	std::cout << dub_a/i_a << std::endl;
+	//Divide int by double//
+	std::cout << "Divide int by double" << std::endl;
+	std::cout << i_a/dub_a << std::endl;
+	//Divide int by int//
+	std::cout << "Divide int by int" << std::endl;
+	std::cout << i_a/a << std::endl;
+
+	//Create char, assign to position in string and output//
+	char let{'a'};
+	msg[1]=let;
+	std::cout << msg << std::endl;
+
+	/*Exploring if declarations can be the result of operations
+	on variables*/
+	int add1{3};
+	int add2{3};
+
+
+	int test{add1 + add2};
+	std::cout << test << std::endl;
+
 }

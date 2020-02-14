@@ -1,7 +1,18 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
-int main() {
+int main(int argc, char* argv[]) {
+
+	//Printing out command line arguments to test program flexibility//
+	const std::vector<std::string> cmdLineArgs {argv, argv+argc};
+
+	for (size_t i{0}; i < cmdLineArgs.size(); i++){
+
+		std::cout << "Argument: " << cmdLineArgs.at(i)  << std::endl;
+	}
+
+
 	//Create an empty string to store the transliterated input in//
 	std::string input_str{"\0"};
 	
