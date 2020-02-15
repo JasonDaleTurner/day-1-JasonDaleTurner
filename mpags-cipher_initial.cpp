@@ -7,6 +7,17 @@
 //Our library headers
 #include "TransformChar.hpp" 
 
+/*ProcessCmdLine, pass list of cmdLinArg, 
+then either do the following:
+pass
+	bool if help req,
+	bool if version req, 
+	inputinput filename, 
+	oututfilename 
+or read the info from the args and then process in function.
+Second option allows abstraction of processing away from program */
+
+
 
 int main(int argc, char* argv[]) {
 
