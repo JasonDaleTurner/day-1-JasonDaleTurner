@@ -8,15 +8,17 @@
 #include "TransformChar.hpp" 
 
 /*ProcessCmdLine, pass list of cmdLinArg, 
-then either do the following:
+then do the following:
 pass
-	bool if help req,
-	bool if version req, 
-	inputinput filename, 
-	oututfilename 
-or read the info from the args and then process in function.
-Second option allows abstraction of processing away from program */
+	reference to bool if help req,
+	reference to bool if version req, 
+	reference to placeholder string inputinput filename, 
+	reference to placeholder string outputfilename.
 
+In main add if statements to test for help or version book
+and to then act appropriately before break from main. Also 
+add false bools for help and version to pass reference
+*/
 
 
 int main(int argc, char* argv[]) {
