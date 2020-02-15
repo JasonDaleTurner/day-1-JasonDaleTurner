@@ -1,69 +1,23 @@
+//Standard library includes//
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
-std::string transformChar( const char in_char ) {
-	//Create an empty string to store the transliterated input in//
-	std::string input_str{"\0"};
-
-	if (isdigit(in_char)) {
-			switch(in_char){
-				case '0':
-					input_str += "ZERO";
-					break;
-				case '1':
-					input_str += "ONE";
-					break;
-				case '2':
-					input_str += "TWO";
-					break;
-				case '3':
-					input_str += "THREE";
-					break;
-				case '4':
-					input_str += "FOUR";
-					break;
-				case '5':
-					input_str += "FIVE";
-					break;
-				case '6':
-					input_str += "SIX";
-					break;
-				case '7':
-					input_str += "SEVEN";
-					break;
-				case '8':
-					input_str += "EIGHT";
-					break;
-				case '9':
-					input_str += "NINE";
-					break;
-				}			
-			} else if (isalpha(in_char)){
-					input_str += toupper(in_char);
-
-			}
-	return input_str;
-}
-
-bool processCommandLine(
-	const std::vector<std::string>& args,
-	bool& helpRequested,
-	bool& versionRequested,
-	std::string& inputFileName,
-	std::string& outputFileName){
-
-}
-
-
+//Our library headers
+#include "TransformChar.hpp" 
 
 
 int main(int argc, char* argv[]) {
 
+	std::string output_str{"\0"};
+	char in_char{'\0'};
+	std::string input_filename{"\0"};
+	std::string output_filename{"\0"};
+
 	/*Read in the command line arguments and respond appropriately*/
 	const std::vector<std::string> cmdLineArgs {argv, argv+argc};
 
-	std::string input_file{"\0"};
 
 	for (size_t i{0}; i < cmdLineArgs.size(); i++){
 		
@@ -78,33 +32,76 @@ int main(int argc, char* argv[]) {
 
 		} else if (cmdLineArgs.at(i) == "-i"){
 			if (i+1 > cmdLineArgs.size()-1 ){
-				std::cout << "Input file not provided" << std::endl;
+				std::cout << "Input filename not provided" << std::endl;
 
 			} else if (cmdLineArgs.at(i+1)[0] == '-'){
 				std::cout << "Input file not provided" << std::endl;
 
 			} else {
-				input_file += cmdLineArgs.at(i+1);
+				input_filename += cmdLineArgs.at(i+1);
+			}
+		} else if (cmdLineArgs.at(i) == "-o"){
+			if (i+1 > cmdLineArgs.size()-1 ){
+				std::cout << "Output filename not provided" << std::endl;
+				return false;
+
+			} else if (cmdLineArgs.at(i+1)[0] == '-'){
+				std::cout << "Outputfile file not provided" << std::endl;
+				return false;
+
+			} else {
+				output_filename += cmdLineArgs.at(i+1);
 			}
 		}
 	}
 
 
-	std::cout << "Type text and hit control + D when finished:" << std::endl;
-	
-	/*Open while loop to accept input and convert
-	lowercase to upper, check for numerics and
-	convert to strings, and append to the output string
-	to send to stdout*/
-	std::string output_str{"\0"};
-	char in_char{'\0'};
-	
-	while(std::cin >> in_char){
-		output_str += transformChar(in_char);
+	/*Check if input file exists and can be accessed, if so read in and run through TransformChar,
+	if not default to std::cin	and add chars to string before moving on the checking output method.
 
+	Check if output file exists and can be accessed. If so write output str (which has been transliterated)
+	to file, if not print to std::cout.
 
+	*/
+
+	if (input_filename != "\0"){
+		std::ifstream in_file{input_filename};
+		bool ok_to_read = in_file.good();
+		if((int) ok_to_read != 0){
+			while(in_file>> in_char){
+				output_str += transformChar(in_char);
+			}
+		} else{
+			std::cout << "Unable to read input file, reading from stdcin instead." << std::endl;
+			while(std::cin >> in_char){
+				output_str += transformChar(in_char);
+			}
+		}
+	} else {
+		std::cout << "Reading from stdout: " << std::endl;
+		while(std::cin >> in_char){
+				output_str += transformChar(in_char);
+		}
 	}
-std::cout <<  std::endl;
-std::cout << output_str << std::endl;
 
+
+
+	if (output_filename != "\0"){
+		std::ofstream out_file{output_filename};
+		bool ok_to_write = out_file.good();
+		if((int) ok_to_write != 0){
+			out_file << output_str;
+
+		} else{
+			std::cout << std::endl;
+			std::cout << "Unable to write to output file, writing to stdout instead." << std::endl;
+			std::cout << output_str << std::endl;
+
+		}
+	} else{
+			std::cout << std::endl;
+			std::cout << "Writing to stdout:" << std::endl;
+			std::cout << output_str << std::endl;
+
+	} 
 }
