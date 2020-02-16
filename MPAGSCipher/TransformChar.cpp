@@ -1,10 +1,27 @@
 #include <iostream>
 #include <string>
 
-//Function definitions//
+//Function definition//
 std::string transformChar( const char in_char ){
+	
+	/*
+	A function to take alphanumeric input and convert to uppercase.
+
+	Input is a char
+	Return is transliterated string
+
+	Digits are converted to text representations and
+	non alphanumeric characters are ignored
+
+	*/
+
+
+
+
 	//Create an empty string to store the transliterated input in//
 	std::string input_str{"\0"};
+
+	//Test for possible digits and convert to alpha//
 
 	if (isdigit(in_char)) {
 			switch(in_char){

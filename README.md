@@ -4,7 +4,11 @@ A simple command line tool for encrypting/decrypting text using classical cipher
 
 ## Installation
 
+Installation is managed by CMake
+
 ## Documentation
+
+To be added later
 
 ## Authors
 Jason Dale Turner
