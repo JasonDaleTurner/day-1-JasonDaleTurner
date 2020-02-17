@@ -29,9 +29,8 @@ std::string runCaesarCipher(const std::string& inputText,
 			}
 
 		} else if (encrypt == false) {
-			if (found - key < unsigned int a{0}) {
-				signed int new_key = found - key;
-				int index = (alpha_len) + new_key;
+			if (key % found != key) {
+				int index = (alpha_len + 1) - (key % found);
 				outputText += alphabet[index];
 			} else {
 				int index = found - key;
