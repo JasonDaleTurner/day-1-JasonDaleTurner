@@ -7,7 +7,9 @@ bool processCommandLine(
  	bool& helpRequested, //If help requested then provide help and return false to break from main //
  	bool& versionRequested,//If help requested then provide help and return false to break from main //
  	std::string& input_filename,
- 	std::string& output_filename) {
+ 	std::string& output_filename,
+ 	int& key,
+ 	bool& encrypt) {
 
 	/*
 	A function to parse command line arguments checking for options and flags
@@ -55,6 +57,18 @@ bool processCommandLine(
 			} else {
 				output_filename += args.at(i+1);
 			}
+		} else if (args.at(i) == "-k"){
+			if (i+1 > args.size()-1 ){
+				std::cout << "Key value not provided" << std::endl;
+
+			} else if (args.at(i+1)[0] == '-'){
+				std::cout << "Key value not provided" << std::endl;
+
+			} else {
+				key += stoi(args.at(i+1));
+			}
+		} else if (args.at(i) == "--encrypt"){
+			encrypt= 1;
 		}
 	}
 return 1;
