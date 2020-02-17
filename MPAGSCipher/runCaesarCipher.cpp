@@ -1,47 +1,49 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 std::string runCaesarCipher(const std::string& inputText,
  const size_t key, 
  const bool encrypt){
  // Create the alphabet container and output string
-	std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	const int alpha_len = 25;
+	std::vector<char> alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+	const size_t alphabetSize = alphabet.size();
+	const size_t truncatedKey {key % alphabetSize};
 	std::string outputText{'\0'};
 
- // Loop over the input text
-	for(size_t i{0}; i < inputText.size(); ++i){
-		char input_char = inputText[i];
-
-		// For each character find the corresponding position in the alphabet
-		int found = alphabet.find(input_char);
-
-		// Apply the shift (+ve or –ve depending on encrypt/decrypt)
-		// to the position, handling correctly potential wrap-around
-		// Determine the new character and add it to the output string
-		if (encrypt == true) {
-			if (found + key > alpha_len) {
-				int index = ((found+key) % (alpha_len));
-				outputText += alphabet[index];
-			} else {
-				int index = found+key;
-				outputText += alphabet[index];
-			}
-
-		} else if (encrypt == false) {
-			if (key % found != key) {
-				int index = (alpha_len + 1) - (key % found);
-				outputText += alphabet[index];
-			} else {
-				int index = found - key;
-				outputText += alphabet[index];
-			}
-
-		}
-
+	if (encrypt == true){
+		std::cout << std::endl;
+		std::cout << "Running Caeser encryption" << std::endl;
+	} else {
+		std::cout << std::endl;
+		std::cout << "Running Caeser decryption" << std::endl;	
 	}
 
-// Finally (after the loop), return the output string
-return outputText;
+  // Loop over the input text
+  char processedChar {'x'};
+  for ( const auto& origChar : inputText ) {
 
+    // For each character in the input text, find the corresponding position in
+    // the alphabet by using an indexed loop over the alphabet container
+    for ( size_t i{0}; i < alphabetSize; ++i ) {
+
+      if ( origChar == alphabet[i] ) {
+
+	// Apply the appropriate shift (depending on whether we're encrypting
+	// or decrypting) and determine the new character
+	// Can then break out of the loop over the alphabet
+	if ( encrypt ) {
+	  processedChar = alphabet[ (i + truncatedKey) % alphabetSize ];
+	} else {
+	  processedChar = alphabet[ (i + alphabetSize - truncatedKey) % alphabetSize ];
+	}
+	break;
+      }
+    }
+
+    // Add the new character to the output text
+    outputText += processedChar;
+  }
+
+  return outputText;
 }

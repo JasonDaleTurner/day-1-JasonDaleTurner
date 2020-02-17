@@ -78,6 +78,8 @@ int main(int argc, char* argv[]) {
 		if (key != 0){
 			final_str = runCaesarCipher(output_str, key, encrypt);
 		} else {
+			std::cout <<  std::endl;
+			std::cout << "Running with no encryption/decryption:"<< std::endl;
 			final_str = output_str;
 		}
 
