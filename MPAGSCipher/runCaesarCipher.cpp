@@ -4,29 +4,14 @@
 
 #include "runCaesarCipher.hpp"
 
-std::string runCaesarCipher(const std::string& inputText,
- const size_t key, 
- const bool encrypt){
+CaesarCipher::CaesarCipher(const int key_value) : key_{key_value}{}
+CaesarCipher::CaesarCipher(const std::string key_value) : key_{stoi(key_value)}{}
 
-/*
-A function to apply the Caesar Cipher to the transliterated input
+void CaesarCipher::applyCipher(const std::string& inputText, const bool encryption){
+	const size_t alphabetSize = alphabet_.size();
+	const size_t truncatedKey {key_ % alphabetSize};
 
-Takes a string input by reference, a key which indicates how far to shift the values,
-and a bool which indicates if the string should be encrypted (+ve shift) or 
-decrypted (-ve shift).
-
-Returns the modified string
-
-*/
-
-
- // Create the alphabet container and output string
-	std::vector<char> alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-	const size_t alphabetSize = alphabet.size();
-	const size_t truncatedKey {key % alphabetSize};
-	std::string outputText{'\0'};
-
-	if (encrypt == true){
+	if (encryption == true){
 		std::cout << std::endl;
 		std::cout << "Running Caeser encryption" << std::endl;
 	} else {
@@ -42,23 +27,21 @@ Returns the modified string
     // the alphabet by using an indexed loop over the alphabet container
     for ( size_t i{0}; i < alphabetSize; ++i ) {
 
-      if ( origChar == alphabet[i] ) {
+      if ( origChar == alphabet_[i] ) {
 
 	// Apply the appropriate shift (depending on whether we're encrypting
 	// or decrypting) and determine the new character
 	// Can then break out of the loop over the alphabet
-	if ( encrypt ) {
-	  processedChar = alphabet[ (i + truncatedKey) % alphabetSize ];
+	if ( encryption ) {
+	  processedChar = alphabet_[ (i + truncatedKey) % alphabetSize ];
 	} else {
-	  processedChar = alphabet[ (i + alphabetSize - truncatedKey) % alphabetSize ];
+	  processedChar = alphabet_[ (i + alphabetSize - truncatedKey) % alphabetSize ];
 	}
 	break;
       }
     }
 
     // Add the new character to the output text
-    outputText += processedChar;
+    outputText_ += processedChar;
   }
-
-  return outputText;
 }

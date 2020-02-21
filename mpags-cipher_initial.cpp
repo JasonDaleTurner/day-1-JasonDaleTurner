@@ -61,9 +61,13 @@ int main(int argc, char* argv[]) {
 
 
 		//Run the Caeser cipher. If key is == 0 then don't run cipher and return transliterated string
+		CaesarCipher cipher{progset.key};
+
 
 		if (progset.key){
-			final_str = runCaesarCipher(output_str, progset.key, progset.encrypt);
+			cipher.applyCipher(output_str, progset.encrypt);
+			final_str = cipher.outputText_;
+			// final_str = runCaesarCipher(output_str, progset.key, progset.encrypt);
 		} else {
 			std::cout <<  std::endl;
 			std::cout << "Running with no encryption/decryption:"<< std::endl;
