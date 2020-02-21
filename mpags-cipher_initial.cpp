@@ -5,7 +5,7 @@
 #include <fstream>
 
 //Our library headers
-#include "TransformChar.hpp"
+#include "transformChar.hpp"
 #include "processCommandLine.hpp"
 #include "runCaesarCipher.hpp"
 
@@ -23,10 +23,10 @@ int main(int argc, char* argv[]) {
 	bool proc_success{processCommandLine(cmdLineArgs,
 		progset)};
 
-	if (progset.helpRequested == 1){
+	if (progset.helpRequested){
 		std::cout << "You need help" << std::endl;
 
-	} else if (progset.versionRequested == 1) {
+	} else if (progset.versionRequested) {
 		std::cout << "mpags-cipher Version 0.1" << std::endl;
 	} else if (proc_success == 0){ 
 		std::cout << "Command line argument parsing fail" << std::endl;
@@ -40,8 +40,7 @@ int main(int argc, char* argv[]) {
 
 		if (progset.input_filename != "\0"){
 			std::ifstream in_file{progset.input_filename};
-			bool ok_to_read = in_file.good();
-			if(ok_to_read != 0){
+			if(in_file.good()){
 				while(in_file>> in_char){
 					output_str += transformChar(in_char);
 				}
@@ -63,7 +62,7 @@ int main(int argc, char* argv[]) {
 
 		//Run the Caeser cipher. If key is == 0 then don't run cipher and return transliterated string
 
-		if (progset.key != 0){
+		if (progset.key){
 			final_str = runCaesarCipher(output_str, progset.key, progset.encrypt);
 		} else {
 			std::cout <<  std::endl;
@@ -80,8 +79,7 @@ int main(int argc, char* argv[]) {
 
 		if (progset.output_filename != "\0"){
 			std::ofstream out_file{progset.output_filename};
-			bool ok_to_write = out_file.good();
-			if(ok_to_write){
+			if(out_file.good()){
 				out_file << final_str << std::endl;
 				out_file.close();
 
