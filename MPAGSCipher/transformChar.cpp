@@ -3,7 +3,7 @@
 
 #include "transformChar.hpp"
 
-//Function definition//
+//Function definition
 std::string transformChar( const char in_char ){
 	
 	/*

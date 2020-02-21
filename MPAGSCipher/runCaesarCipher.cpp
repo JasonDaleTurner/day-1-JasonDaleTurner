@@ -3,18 +3,30 @@
 #include <vector>
 
 #include "runCaesarCipher.hpp"
+#include "cipherMode.hpp"
 
+
+
+//Class constructors
 CaesarCipher::CaesarCipher(const int key_value) : key_{key_value}{}
 CaesarCipher::CaesarCipher(const std::string key_value) : key_{stoi(key_value)}{}
 
-void CaesarCipher::applyCipher(const std::string& inputText, const bool encryption){
+/*Class method to apply the Caeser cipher to a string passed to the class
+
+Takes an input uppercase alphabetical string and applies Caeser cipher encryption/decryption
+to the string according to the key value initialised during class instantiation.
+Stores string as class member outputText_
+
+*/
+
+void CaesarCipher::applyCipher(const std::string& inputText, const cipherMode& mode_select){
 	const size_t alphabetSize = alphabet_.size();
 	const size_t truncatedKey {key_ % alphabetSize};
 
-	if (encryption == true){
+	if (mode_select == cipherMode::encrypt){
 		std::cout << std::endl;
 		std::cout << "Running Caeser encryption" << std::endl;
-	} else {
+	} else if (mode_select == cipherMode::decrypt){
 		std::cout << std::endl;
 		std::cout << "Running Caeser decryption" << std::endl;	
 	}
@@ -32,9 +44,9 @@ void CaesarCipher::applyCipher(const std::string& inputText, const bool encrypti
 	// Apply the appropriate shift (depending on whether we're encrypting
 	// or decrypting) and determine the new character
 	// Can then break out of the loop over the alphabet
-	if ( encryption ) {
+	if ( mode_select == cipherMode::encrypt ) {
 	  processedChar = alphabet_[ (i + truncatedKey) % alphabetSize ];
-	} else {
+	} else if (mode_select == cipherMode::decrypt){
 	  processedChar = alphabet_[ (i + alphabetSize - truncatedKey) % alphabetSize ];
 	}
 	break;

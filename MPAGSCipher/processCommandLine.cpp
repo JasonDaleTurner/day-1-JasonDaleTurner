@@ -3,6 +3,7 @@
 #include <string>
 
 #include "processCommandLine.hpp"
+#include "cipherMode.hpp"
 
 bool processCommandLine(
  	const std::vector<std::string>& args,
@@ -14,9 +15,9 @@ bool processCommandLine(
 
 	Input is a vector of strings which are the command line arguments separated
 	by white space. Also takes reference to ProgramSettings structure to store 
-	options and arguments
+	options and arguments.
 
-	Output is a bool which indicates successful parsing.
+	Return is a bool which indicates successful parsing.
 
 	*/
 
@@ -64,8 +65,11 @@ bool processCommandLine(
 				settings.key += stoi(args.at(i+1));
 			}
 		} else if (args.at(i) == "--encrypt"){
-			settings.encrypt= 1;
+			settings.mode = cipherMode::encrypt;
+		} else if (args.at(i) == "--decrypt"){
+			settings.mode = cipherMode::decrypt;
 		}
+
 	}
 return 1;
 }

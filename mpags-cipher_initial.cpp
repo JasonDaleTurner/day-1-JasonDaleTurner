@@ -8,17 +8,18 @@
 #include "transformChar.hpp"
 #include "processCommandLine.hpp"
 #include "runCaesarCipher.hpp"
+#include "cipherMode.hpp"
 
 int main(int argc, char* argv[]) {
 
-	//Declare variable used throughout and passed by reference to functions//
+	//Declare variables used throughout and passed by reference to functions//
 	std::string output_str{""};
 	std::string final_str{""};
 	char in_char{'\0'};
 
 	/*Read in the command line arguments and respond appropriately*/
 	const std::vector<std::string> cmdLineArgs {argv, argv+argc};
-	ProgramSettings progset{0, 0, "", "", 0, 0};
+	ProgramSettings progset{0, 0, "", "", 0, cipherMode::encrypt};
 
 	bool proc_success{processCommandLine(cmdLineArgs,
 		progset)};
@@ -65,7 +66,7 @@ int main(int argc, char* argv[]) {
 
 
 		if (progset.key){
-			cipher.applyCipher(output_str, progset.encrypt);
+			cipher.applyCipher(output_str, progset.mode);
 			final_str = cipher.outputText_;
 			// final_str = runCaesarCipher(output_str, progset.key, progset.encrypt);
 		} else {
