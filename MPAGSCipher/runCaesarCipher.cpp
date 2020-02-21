@@ -2,9 +2,24 @@
 #include <string>
 #include <vector>
 
+#include "runCaesarCipher.hpp"
+
 std::string runCaesarCipher(const std::string& inputText,
  const size_t key, 
  const bool encrypt){
+
+/*
+A function to apply the Caesar Cipher to the transliterated input
+
+Takes a string input by reference, a key which indicates how far to shift the values,
+and a bool which indicates if the string should be encrypted (+ve shift) or 
+decrypted (-ve shift).
+
+Returns the modified string
+
+*/
+
+
  // Create the alphabet container and output string
 	std::vector<char> alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 	const size_t alphabetSize = alphabet.size();

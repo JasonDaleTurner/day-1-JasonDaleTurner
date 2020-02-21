@@ -12,34 +12,21 @@
 int main(int argc, char* argv[]) {
 
 	//Declare variable used throughout and passed by reference to functions//
-	std::string output_str{"\0"};
-	std::string final_str{"\0"};
+	std::string output_str{""};
+	std::string final_str{""};
 	char in_char{'\0'};
-
-	std::string input_filename{"\0"};
-	std::string output_filename{"\0"};
-	bool helpRequested{0};
-	bool versionRequested{0};
-	bool proc_success{0};
-	int key{0};
-	bool encrypt{0};
-
 
 	/*Read in the command line arguments and respond appropriately*/
 	const std::vector<std::string> cmdLineArgs {argv, argv+argc};
+	ProgramSettings progset{0, 0, "", "", 0, 0};
 
-	proc_success = processCommandLine(cmdLineArgs,
-		helpRequested,
-		versionRequested,
-		input_filename,
-		output_filename,
-		key,
-		encrypt);
+	bool proc_success{processCommandLine(cmdLineArgs,
+		progset)};
 
-	if (helpRequested == 1){
+	if (progset.helpRequested == 1){
 		std::cout << "You need help" << std::endl;
 
-	} else if (versionRequested == 1) {
+	} else if (progset.versionRequested == 1) {
 		std::cout << "mpags-cipher Version 0.1" << std::endl;
 	} else if (proc_success == 0){ 
 		std::cout << "Command line argument parsing fail" << std::endl;
@@ -51,13 +38,14 @@ int main(int argc, char* argv[]) {
 		if not default to std::cin	and add chars to string before moving on the checking output method.
 		*/
 
-		if (input_filename != "\0"){
-			std::ifstream in_file{input_filename};
+		if (progset.input_filename != "\0"){
+			std::ifstream in_file{progset.input_filename};
 			bool ok_to_read = in_file.good();
-			if((int) ok_to_read != 0){
+			if(ok_to_read != 0){
 				while(in_file>> in_char){
 					output_str += transformChar(in_char);
 				}
+				in_file.close();
 			} else{
 				std::cout << "Unable to read input file, reading from stdcin instead." << std::endl;
 				while(std::cin >> in_char){
@@ -75,8 +63,8 @@ int main(int argc, char* argv[]) {
 
 		//Run the Caeser cipher. If key is == 0 then don't run cipher and return transliterated string
 
-		if (key != 0){
-			final_str = runCaesarCipher(output_str, key, encrypt);
+		if (progset.key != 0){
+			final_str = runCaesarCipher(output_str, progset.key, progset.encrypt);
 		} else {
 			std::cout <<  std::endl;
 			std::cout << "Running with no encryption/decryption:"<< std::endl;
@@ -90,11 +78,12 @@ int main(int argc, char* argv[]) {
 		to file, if not print to std::cout.
 		*/
 
-		if (output_filename != "\0"){
-			std::ofstream out_file{output_filename};
+		if (progset.output_filename != "\0"){
+			std::ofstream out_file{progset.output_filename};
 			bool ok_to_write = out_file.good();
-			if((int) ok_to_write != 0){
-				out_file << final_str;
+			if(ok_to_write){
+				out_file << final_str << std::endl;
+				out_file.close();
 
 			} else{
 				std::cout << std::endl;

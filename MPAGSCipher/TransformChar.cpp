@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+#include "TransformChar.hpp"
+
 //Function definition//
 std::string transformChar( const char in_char ){
 	
@@ -14,7 +16,6 @@ std::string transformChar( const char in_char ){
 	non alphanumeric characters are ignored
 
 	*/
-
 
 
 
