@@ -4,6 +4,7 @@
 
 #include "processCommandLine.hpp"
 #include "cipherMode.hpp"
+#include "cipherType.hpp"
 
 bool processCommandLine(
  	const std::vector<std::string>& args,
@@ -62,12 +63,16 @@ bool processCommandLine(
 				std::cout << "Key value not provided" << std::endl;
 
 			} else {
-				settings.key += stoi(args.at(i+1));
+				settings.key += args.at(i+1);
 			}
 		} else if (args.at(i) == "--encrypt"){
 			settings.mode = cipherMode::encrypt;
 		} else if (args.at(i) == "--decrypt"){
 			settings.mode = cipherMode::decrypt;
+		} else if (args.at(i) == "--caeser"){
+			settings.type = cipherType::caeser;
+		} else if (args.at(i) == "--playfair"){
+			settings.type = cipherType::playfair;
 		}
 
 	}

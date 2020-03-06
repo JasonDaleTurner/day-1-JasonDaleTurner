@@ -9,6 +9,8 @@
 #include "processCommandLine.hpp"
 #include "runCaesarCipher.hpp"
 #include "cipherMode.hpp"
+#include "cipherMode.hpp"
+#include "playfairCipher.hpp"
 
 int main(int argc, char* argv[]) {
 
@@ -19,7 +21,7 @@ int main(int argc, char* argv[]) {
 
 	/*Read in the command line arguments and respond appropriately*/
 	const std::vector<std::string> cmdLineArgs {argv, argv+argc};
-	ProgramSettings progset{0, 0, "", "", 0, cipherMode::encrypt};
+	ProgramSettings progset{0, 0, "", "", "", cipherMode::encrypt, cipherType::caeser};
 
 	bool proc_success{processCommandLine(cmdLineArgs,
 		progset)};
@@ -59,21 +61,40 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
+		if (progset.type == cipherType::caeser){
+			//Run the Caeser cipher. If key is == 0 then don't run cipher and return transliterated string
 
+			CaesarCipher cipher{progset.key};
 
-		//Run the Caeser cipher. If key is == 0 then don't run cipher and return transliterated string
-		CaesarCipher cipher{progset.key};
+			if (!progset.key.empty()){
 
-
-		if (progset.key){
 			cipher.applyCipher(output_str, progset.mode);
 			final_str = cipher.outputText_;
-			// final_str = runCaesarCipher(output_str, progset.key, progset.encrypt);
+			
+			} else {
+				std::cout <<  std::endl;
+				std::cout << "Running with no encryption/decryption:"<< std::endl;
+				final_str = output_str;
+			}
+
+		} else if (progset.type == cipherType::playfair){
+			PlayfairCipher cipher{progset.key};
+
+			cipher.applyCipher(output_str, progset.mode);
+			final_str = cipher.outputText_;
+
+
+
 		} else {
 			std::cout <<  std::endl;
 			std::cout << "Running with no encryption/decryption:"<< std::endl;
 			final_str = output_str;
 		}
+
+
+
+
+		
 
 
 

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "cipherMode.hpp"
+#include "cipherType.hpp"
 
 //Declare new structure to simplify parsing command line
 struct ProgramSettings
@@ -12,8 +13,9 @@ struct ProgramSettings
 	bool versionRequested;
  	std::string input_filename;
  	std::string output_filename;
- 	int key;
+ 	std::string key;
  	cipherMode mode;
+ 	cipherType type;
 };
 
 
